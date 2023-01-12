@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:52:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 18:13:41 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:36:59 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,21 @@ void	ft_usleep(int time, t_philo *philo)
 	}
 }
 
-void	print_philo(t_philo *philo, char *color, char *message, int time)
+void	print_philo(t_philo *philo, char *color, char *message)
 {
 	int	time_now;
 
+	pthread_mutex_lock(&philo->game->dead_m);
 	if (philo->game->dead == false)
 	{
-		time_now = get_time() - time;
+		time_now = get_time() - philo->game->time;
 		pthread_mutex_lock(&philo->game->printf);
 		printf("%s", color);
 		printf("%d %d %s", time_now, philo->id, message);
 		printf("\033[0m");
 		pthread_mutex_unlock(&philo->game->printf);
 	}
+	pthread_mutex_unlock(&philo->game->dead_m);
 }
 
 int	get_time(void)

@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 18:55:09 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:23:02 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_pars
 }	t_pars;
 
 void		ft_usleep(int time, t_philo *philo);
-void		print_philo(t_philo *philo, char *color, char *message, int time);
+void		print_philo(t_philo *philo, char *color, char *message);
 void		free_philo(t_pars *game);
 void		join_thread(t_pars *game, pthread_t *thread);
 void		*routine(void *philo);

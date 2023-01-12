@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 18:55:23 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:30:20 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	is_dead(t_philo *philo)
 	pthread_mutex_unlock(&philo->game->last_meal_m);
 	if (between_meal > philo->game->time_to_die)
 	{
-		print_philo(philo, RED, DIED, philo->game->time);
+		print_philo(philo, RED, DIED);
 		pthread_mutex_lock(&philo->game->alive_m);
 		philo->alive = false;
 		pthread_mutex_unlock(&philo->game->alive_m);
@@ -30,25 +30,28 @@ void	is_dead(t_philo *philo)
 
 void	check_dead(t_pars *game)
 {
-	int	i;
+	int		i;
+	bool	dead;
 
+	dead = false;
 	while (1)
 	{
 		i = 0;
-		pthread_mutex_lock(&game->dead_m);
 		while (i != game->nb_philo)
 		{
 			is_dead(&game->philo[i]);
 			if (game->philo[i].alive == false)
 			{
+				pthread_mutex_lock(&game->dead_m);
 				game->dead = true;
+				dead = true;
+				pthread_mutex_unlock(&game->dead_m);
 				break ;
 			}
 			i++;
 		}
-		if (game->dead == true || game->meal == game->nb_philo)
+		if (dead == true || game->meal == game->nb_philo)
 			break ;
-		pthread_mutex_unlock(&game->dead_m);
 		usleep(1000);
 	}
 }
