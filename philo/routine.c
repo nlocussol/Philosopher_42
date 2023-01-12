@@ -1,0 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/12 14:56:59 by nlocusso          #+#    #+#             */
+/*   Updated: 2023/01/12 19:00:25 by nlocusso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
+
+void	eat_routine(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->r_fork);
+	print_philo(philo, BLUE, FORK_R, philo->game->time);
+	pthread_mutex_lock(philo->l_fork);
+	print_philo(philo, BLUE, FORK_L, philo->game->time);
+	print_philo(philo, GREEN, EATING, philo->game->time);
+	pthread_mutex_lock(&philo->game->last_meal_m);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->game->last_meal_m);
+	pthread_mutex_lock(&philo->game->nb_meal_m);
+	philo->nb_meal++;
+	if (philo->nb_meal == philo->game->total_meal)
+	{
+		pthread_mutex_lock(&philo->game->meal_m);
+		philo->game->meal++;
+		pthread_mutex_unlock(&philo->game->meal_m);
+	}
+	pthread_mutex_unlock(&philo->game->nb_meal_m);
+	usleep(philo->game->time_to_eat * 1000);
+	pthread_mutex_unlock(&philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
+}
+
+void	sleep_routine(t_philo *philo)
+{
+	print_philo(philo, PINK, SLEEP, philo->game->time);
+	usleep(philo->game->time_to_sleep * 1000);
+}
+
+void	*routine(void *philo_void)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)philo_void;
+	if (philo->id % 2 == 0)
+		usleep(5000);
+	while (philo->game->dead == false && philo->game->meal != philo->game->nb_philo)
+	{
+		eat_routine(philo);
+		sleep_routine(philo);
+		print_philo(philo, GRAY, THINK, philo->game->time);
+	}
+	return (NULL);
+}
