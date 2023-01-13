@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:56:59 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 19:41:24 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/13 09:12:04 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*routine(void *philo_void)
 		pthread_mutex_unlock(&philo->game->dead_m);
 		eat_routine(philo);
 		sleep_routine(philo);
-		print_philo(philo, GRAY, THINK);
+		print_philo(philo, YELLOW, THINK);
 	}
 	return (NULL);
 }

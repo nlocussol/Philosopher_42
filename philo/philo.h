@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 19:23:02 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/13 09:16:23 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define FALSE 0
 
 # define RED "\033[0;31m"
-# define GRAY "\033[0;37m"
-# define BLUE "\e[38;5;191m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;36m"
 # define GREEN "\033[0;32m"
 # define PINK "\e[38;5;25m"
 
@@ -67,6 +67,8 @@ typedef struct s_pars
 	bool			dead;
 }	t_pars;
 
+void		init_game(t_pars *game, int argc, char **argv);
+void		init_philo(int i, t_philo *philo, struct s_pars *game);
 void		ft_usleep(int time, t_philo *philo);
 void		print_philo(t_philo *philo, char *color, char *message);
 void		free_philo(t_pars *game);

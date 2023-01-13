@@ -6,11 +6,11 @@
 #    By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 17:13:34 by nlocusso          #+#    #+#              #
-#    Updated: 2023/01/12 15:37:36 by nlocusso         ###   ########.fr        #
+#    Updated: 2023/01/13 09:16:44 by nlocusso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c parsing.c utils.c routine.c free.c
+SRCS		= main.c parsing.c utils.c routine.c init.c free.c
 OBJS		= ${SRCS:.c=.o}
 NAME		= philo
 CC			= clang -g -O0
