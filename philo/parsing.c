@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 09:16:34 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/13 10:08:24 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	init_prog(t_pars *game, int argc, char **argv)
 	}
 	check_dead(game);
 	join_thread(game, thread);
+	free(thread);
 	free_philo(game);
 }
 
@@ -83,15 +84,26 @@ int	pars_arg(int argc, char **argv)
 {
 	int	j;
 
+	if (argv[1][0] == '0' || argv[argc - 1][0] == '0')
+	{
+		print_error(RED, "The number of philos cannot \
+be equal to or less than 0!\n");
+		return (1);
+	}
 	while (argc != 1)
 	{
 		j = 0;
 		while (argv[argc - 1][j])
 		{
-			if (argv[argc - 1][j] >= '0' && argv[argc - 1][j] <= '9')
+			if (argv[argc - 1][0] == '+' || (argv[argc - 1][j] >= '0'
+				&& argv[argc - 1][j] <= '9'))
 				j++;
 			else
+			{
+				print_error(RED, "Parameters can only \
+be non-negative numbers!\n");
 				return (1);
+			}
 		}
 		argc--;
 	}

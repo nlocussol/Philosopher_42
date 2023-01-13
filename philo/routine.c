@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:56:59 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 09:12:04 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/13 10:16:50 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	eat_routine(t_philo *philo)
 	if (philo->nb_meal == philo->game->total_meal)
 		philo->game->meal++;
 	pthread_mutex_unlock(&philo->game->nb_meal_m);
-	usleep(philo->game->time_to_eat * 1000);
+	if (philo->game->time_to_eat < philo->game->time_to_die)
+		usleep(philo->game->time_to_eat * 1000);
+	else
+		usleep(philo->game->time_to_die * 1000);
 	pthread_mutex_unlock(&philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
 }
@@ -35,7 +38,8 @@ void	eat_routine(t_philo *philo)
 void	sleep_routine(t_philo *philo)
 {
 	print_philo(philo, PINK, SLEEP);
-	usleep(philo->game->time_to_sleep * 1000);
+	if (philo->game->time_to_sleep < philo->game->time_to_die)
+		usleep(philo->game->time_to_sleep * 1000);
 }
 
 void	*routine(void *philo_void)

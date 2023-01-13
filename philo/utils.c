@@ -6,21 +6,16 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:52:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 19:36:59 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/13 09:30:56 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_usleep(int time, t_philo *philo)
+void	print_error(char *color, char *message)
 {
-	while (time >= 0)
-	{
-		if (philo->alive == false)
-			break ;
-		usleep(100);
-		time -= 100;
-	}
+	printf("%s", color);
+	printf("%s", message);
 }
 
 void	print_philo(t_philo *philo, char *color, char *message)
