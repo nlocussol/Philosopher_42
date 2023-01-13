@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:52:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 16:18:27 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:36:59 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,13 @@
 
 void	ft_usleep(int time, t_philo *philo)
 {
-	int	init_time;
-	int	exit_time;
-
-	init_time = get_time();
-	exit_time = time + init_time;
-	while (init_time != exit_time)
+	while (time >= 0)
 	{
-		pthread_mutex_lock(&philo->game->dead_m);
-		if (philo->game->dead != false || philo->game->all_eat == true)
-		{
-			pthread_mutex_unlock(&philo->game->dead_m);
+		if (philo->alive == false)
 			break ;
-		}
-		pthread_mutex_unlock(&philo->game->dead_m);
-		usleep(500);
-		init_time = get_time();
+		usleep(100);
+		time -= 100;
 	}
-}
-
-void	print_error(char *color, char *message)
-{
-	printf("%s", color);
-	printf("%s", message);
 }
 
 void	print_philo(t_philo *philo, char *color, char *message)
@@ -44,15 +28,15 @@ void	print_philo(t_philo *philo, char *color, char *message)
 	int	time_now;
 
 	pthread_mutex_lock(&philo->game->dead_m);
-	pthread_mutex_lock(&philo->game->printf);
-	if (philo->game->dead == false && philo->alive == true && philo->game->all_eat == false)
+	if (philo->game->dead == false)
 	{
 		time_now = get_time() - philo->game->time;
+		pthread_mutex_lock(&philo->game->printf);
 		printf("%s", color);
 		printf("%d %d %s", time_now, philo->id, message);
 		printf("\033[0m");
+		pthread_mutex_unlock(&philo->game->printf);
 	}
-	pthread_mutex_unlock(&philo->game->printf);
 	pthread_mutex_unlock(&philo->game->dead_m);
 }
 

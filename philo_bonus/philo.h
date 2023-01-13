@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 16:17:57 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/13 09:16:23 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,11 @@ typedef struct s_pars
 	int				time_to_sleep;
 	int				time;
 	bool			dead;
-	bool			all_eat;
 }	t_pars;
 
-void		ft_usleep(int time, t_philo *philo);
-void		print_error(char *color, char *message);
 void		init_game(t_pars *game, int argc, char **argv);
 void		init_philo(int i, t_philo *philo, struct s_pars *game);
+void		ft_usleep(int time, t_philo *philo);
 void		print_philo(t_philo *philo, char *color, char *message);
 void		free_philo(t_pars *game);
 void		join_thread(t_pars *game, pthread_t *thread);

@@ -26,7 +26,6 @@ void	init_game(t_pars *game, int argc, char **argv)
 {
 	game->nb_philo = ft_atoll(argv[1]);
 	game->meal = 0;
-	game->all_eat = false;
 	game->time_to_die = ft_atoll(argv[2]);
 	game->time_to_eat = ft_atoll(argv[3]);
 	game->time_to_sleep = ft_atoll(argv[4]);
