@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:52:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 16:18:27 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 13:50:50 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_usleep(int time, t_philo *philo)
 
 	init_time = get_time();
 	exit_time = time + init_time;
-	while (init_time != exit_time)
+	while (init_time <= exit_time)
 	{
 		pthread_mutex_lock(&philo->game->dead_m);
 		if (philo->game->dead != false || philo->game->all_eat == true)
@@ -37,6 +37,7 @@ void	print_error(char *color, char *message)
 {
 	printf("%s", color);
 	printf("%s", message);
+	printf("\033[0m");
 }
 
 void	print_philo(t_philo *philo, char *color, char *message)
@@ -44,6 +45,7 @@ void	print_philo(t_philo *philo, char *color, char *message)
 	int	time_now;
 
 	pthread_mutex_lock(&philo->game->dead_m);
+	pthread_mutex_lock(&philo->game->meal_m);
 	pthread_mutex_lock(&philo->game->printf);
 	if (philo->game->dead == false && philo->alive == true && philo->game->all_eat == false)
 	{
@@ -52,6 +54,7 @@ void	print_philo(t_philo *philo, char *color, char *message)
 		printf("%d %d %s", time_now, philo->id, message);
 		printf("\033[0m");
 	}
+	pthread_mutex_unlock(&philo->game->meal_m);
 	pthread_mutex_unlock(&philo->game->printf);
 	pthread_mutex_unlock(&philo->game->dead_m);
 }

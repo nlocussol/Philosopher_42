@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:28:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 10:08:02 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 12:26:37 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	free_philo(t_pars *game)
 	}
 	pthread_mutex_destroy(&game->printf);
 	pthread_mutex_destroy(&game->alive_m);
-	pthread_mutex_destroy(&game->last_meal_m);
 	pthread_mutex_destroy(&game->dead_m);
 	pthread_mutex_destroy(&game->time_m);
 	free(game->philo);

@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 16:37:12 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 13:46:19 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	is_dead(t_philo *philo)
 {
 	int	between_meal;
 
-	pthread_mutex_lock(&philo->game->last_meal_m);
+	pthread_mutex_lock(&philo->game->meal_m);
 	between_meal = get_time() - philo->last_meal;
-	pthread_mutex_unlock(&philo->game->last_meal_m);
+	pthread_mutex_unlock(&philo->game->meal_m);
 	if (between_meal >= philo->game->time_to_die)
 	{
 		print_philo(philo, RED, DIED);
@@ -32,25 +32,22 @@ void	check_dead(t_pars *game)
 {
 	int		i;
 	bool	dead;
+	bool	eat;
 
 	dead = false;
-	while (1)
+	eat = false;
+	while (dead == false && eat == false)
 	{
 		i = 0;
+		game->meal = 0;
 		while (i != game->nb_philo)
 		{
-			usleep(150);
+			usleep(10);
 			is_dead(&game->philo[i]);
 			pthread_mutex_lock(&game->meal_m);
-			if (game->philo->nb_meal == game->total_meal)
+			if (game->philo[i].eat_all == true)
 				game->meal++;
 			pthread_mutex_unlock(&game->meal_m);
-			if (game->meal == game->nb_philo)
-			{
-				pthread_mutex_lock(&game->dead_m);
-				game->all_eat = true;	
-				pthread_mutex_unlock(&game->dead_m);
-			}
 			if (game->philo[i].alive == false)
 			{
 				pthread_mutex_lock(&game->dead_m);
@@ -59,15 +56,15 @@ void	check_dead(t_pars *game)
 				pthread_mutex_unlock(&game->dead_m);
 				break ;
 			}
+			else if (game->meal == game->nb_philo)
+			{
+				pthread_mutex_lock(&game->dead_m);
+				game->all_eat = true;	
+				eat = true;
+				pthread_mutex_unlock(&game->dead_m);
+			}
 			i++;
 		}
-		pthread_mutex_lock(&game->meal_m);
-		if (dead == true || game->all_eat)
-		{
-			pthread_mutex_unlock(&game->meal_m);
-			break ;
-		}
-		pthread_mutex_unlock(&game->meal_m);
 	}
 }
 

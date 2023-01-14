@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 16:17:57 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 13:43:57 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ typedef struct s_philo
 	pthread_mutex_t	*l_fork;
 	struct s_pars	*game;
 	bool			alive;
+	bool			eat_all;
 }	t_philo;
 
 typedef struct s_pars
 {
 	pthread_mutex_t	printf;
 	pthread_mutex_t	meal_m;
-	pthread_mutex_t	nb_meal_m;
-	pthread_mutex_t	last_meal_m;
 	pthread_mutex_t	alive_m;
 	pthread_mutex_t	dead_m;
 	pthread_mutex_t	time_m;

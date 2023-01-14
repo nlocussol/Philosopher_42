@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 16:45:53 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 19:24:45 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ typedef struct s_pars
 	sem_t	*dead_sem;
 	sem_t	*time_sem;
 	sem_t	*fork;
+	sem_t	*all_eat;
+	sem_t	*one_dead;
 	int		nb_philo;
 	int		total_meal;
-	int		meal;
 	int		time_to_die;
 	int		time_to_eat;
 	int		time_to_sleep;
@@ -68,6 +69,7 @@ typedef struct s_pars
 	t_philo	*philo;
 }	t_pars;
 
+void		print_error(char *color, char *message);
 void		wait_pid(t_pars *game);
 void		init_game(t_pars *game, int argc, char **argv);
 void		init_philo(int i, t_philo *philo, struct s_pars *game);

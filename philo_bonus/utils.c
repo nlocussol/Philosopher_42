@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 16:49:34 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 16:49:40 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 19:13:24 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,22 @@
 
 void	ft_usleep(int time, t_philo *philo)
 {
-	while (time >= 0)
+	int	init_time;
+	int	exit_time;
+
+	init_time = get_time();
+	exit_time = time + init_time;
+	while (init_time <= exit_time)
 	{
-		if (philo->alive == false)
+		sem_wait(philo->game->dead_sem);
+		if (philo->game->dead != false)
+		{
+			sem_post(philo->game->dead_sem);
 			break ;
-		usleep(100);
-		time -= 100;
+		}
+		sem_post(philo->game->dead_sem);
+		usleep(500);
+		init_time = get_time();
 	}
 }
 
@@ -27,6 +37,8 @@ void	print_philo(t_philo *philo, char *color, char *message)
 {
 	int	time_now;
 
+	sem_wait(philo->game->dead_sem);
+	sem_wait(philo->game->printf_sem);
 	if (philo->game->dead == false)
 	{
 		time_now = get_time() - philo->game->time;
@@ -34,6 +46,15 @@ void	print_philo(t_philo *philo, char *color, char *message)
 		printf("%d %d %s", time_now, philo->id, message);
 		printf("\033[0m");
 	}
+	sem_post(philo->game->printf_sem);
+	sem_post(philo->game->dead_sem);
+}
+
+void	print_error(char *color, char *message)
+{
+	printf("%s", color);
+	printf("%s", message);
+	printf("\033[0m");
 }
 
 int	get_time(void)

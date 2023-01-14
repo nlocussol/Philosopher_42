@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 09:15:31 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 09:16:01 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 13:44:14 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_philo(int i, t_philo *philo, struct s_pars *game)
 	pthread_mutex_init(&philo->r_fork, NULL);
 	philo->game = game;
 	philo->alive = true;
+	philo->eat_all = false;
 }
 
 void	init_game(t_pars *game, int argc, char **argv)
@@ -34,9 +35,7 @@ void	init_game(t_pars *game, int argc, char **argv)
 	game->dead = false;
 	pthread_mutex_init(&game->printf, NULL);
 	pthread_mutex_init(&game->meal_m, NULL);
-	pthread_mutex_init(&game->nb_meal_m, NULL);
 	pthread_mutex_init(&game->alive_m, NULL);
-	pthread_mutex_init(&game->last_meal_m, NULL);
 	pthread_mutex_init(&game->dead_m, NULL);
 	pthread_mutex_init(&game->time_m, NULL);
 	if (argc == 6)
