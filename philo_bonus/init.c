@@ -5,42 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 09:15:31 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 09:16:01 by nlocusso         ###   ########.fr       */
+/*   Created: 2023/01/14 15:38:56 by nlocusso          #+#    #+#             */
+/*   Updated: 2023/01/14 15:57:21 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-void	init_philo(int i, t_philo *philo, struct s_pars *game)
+void	init_philo(int i, t_philo *philo, t_pars *game)
 {
 	philo->id = i + 1;
-	philo->nb_meal = 0;
 	philo->last_meal = get_time();
-	pthread_mutex_init(&philo->r_fork, NULL);
-	philo->game = game;
+	philo->nb_meal = 0;
 	philo->alive = true;
+	philo->game = game;
 }
 
 void	init_game(t_pars *game, int argc, char **argv)
 {
 	game->nb_philo = ft_atoll(argv[1]);
-	game->meal = 0;
 	game->time_to_die = ft_atoll(argv[2]);
 	game->time_to_eat = ft_atoll(argv[3]);
 	game->time_to_sleep = ft_atoll(argv[4]);
 	game->time = get_time();
-	game->dead = false;
-	pthread_mutex_init(&game->printf, NULL);
-	pthread_mutex_init(&game->meal_m, NULL);
-	pthread_mutex_init(&game->nb_meal_m, NULL);
-	pthread_mutex_init(&game->alive_m, NULL);
-	pthread_mutex_init(&game->last_meal_m, NULL);
-	pthread_mutex_init(&game->dead_m, NULL);
-	pthread_mutex_init(&game->time_m, NULL);
+	game->total_meal = -1;
 	if (argc == 6)
 		game->total_meal = ft_atoll(argv[5]);
-	else
-		game->total_meal = -1;
+	game->meal = 0;
+	game->dead = false;
+	game->pid = malloc(sizeof(int) * game->nb_philo);
+	game->printf_sem = sem_open("printf_sem", O_CREAT, 0660, 1);
+	game->meal_sem = sem_open("meal_sem", O_CREAT, 0660, 1);
+	game->alive_sem = sem_open("alive_sem", O_CREAT, 0660, 1);
+	game->dead_sem = sem_open("dead_sem", O_CREAT, 0660, 1);
+	game->time_sem = sem_open("time_sem", O_CREAT, 0660, 1);
+	game->fork = sem_open("fork_sem", O_CREAT, 0660, game->nb_philo);
 	game->philo = malloc(game->nb_philo * sizeof(t_philo));
 }

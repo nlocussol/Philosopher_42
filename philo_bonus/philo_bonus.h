@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/13 09:16:23 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:45:53 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <pthread.h>
+# include <semaphore.h>
 # include <stdbool.h>
 # include <limits.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 # include <sys/time.h>
 # define TRUE 1
 # define FALSE 0
@@ -41,39 +44,37 @@ typedef struct s_philo
 	int				id;
 	int				last_meal;
 	int				nb_meal;
-	pthread_mutex_t	r_fork;
-	pthread_mutex_t	*l_fork;
 	struct s_pars	*game;
 	bool			alive;
 }	t_philo;
 
 typedef struct s_pars
 {
-	pthread_mutex_t	printf;
-	pthread_mutex_t	meal_m;
-	pthread_mutex_t	nb_meal_m;
-	pthread_mutex_t	last_meal_m;
-	pthread_mutex_t	alive_m;
-	pthread_mutex_t	dead_m;
-	pthread_mutex_t	time_m;
-	t_philo			*philo;
-	int				nb_philo;
-	int				total_meal;
-	int				meal;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				time;
-	bool			dead;
+	sem_t	*printf_sem;
+	sem_t	*meal_sem;
+	sem_t	*alive_sem;
+	sem_t	*dead_sem;
+	sem_t	*time_sem;
+	sem_t	*fork;
+	int		nb_philo;
+	int		total_meal;
+	int		meal;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		time;
+	int		*pid;
+	bool	dead;
+	t_philo	*philo;
 }	t_pars;
 
+void		wait_pid(t_pars *game);
 void		init_game(t_pars *game, int argc, char **argv);
 void		init_philo(int i, t_philo *philo, struct s_pars *game);
 void		ft_usleep(int time, t_philo *philo);
 void		print_philo(t_philo *philo, char *color, char *message);
 void		free_philo(t_pars *game);
-void		join_thread(t_pars *game, pthread_t *thread);
-void		*routine(void *philo);
+void		routine(t_philo *philo);
 void		init_prog(t_pars *game, int argc, char **argv);
 int			pars_arg(int argc, char **argv);
 long long	ft_atoll(const char *nptr);

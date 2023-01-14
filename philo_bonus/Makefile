@@ -6,13 +6,13 @@
 #    By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 17:13:34 by nlocusso          #+#    #+#              #
-#    Updated: 2023/01/13 09:16:44 by nlocusso         ###   ########.fr        #
+#    Updated: 2023/01/14 16:49:55 by nlocusso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		= main.c parsing.c utils.c routine.c init.c free.c
 OBJS		= ${SRCS:.c=.o}
-NAME		= philo
+NAME		= philo_bonus
 CC			= clang -g -O0
 CFLAGS		= -Wall -Wextra -Werror
 

@@ -6,11 +6,11 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:23:41 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 15:08:48 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:40:05 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	main(int argc, char **argv)
 {

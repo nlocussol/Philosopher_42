@@ -6,38 +6,31 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:28:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/12 18:55:31 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:48:29 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-void	join_thread(t_pars *game, pthread_t *thread)
+void	wait_pid(t_pars *game)
 {
 	int	i;
 
 	i = 0;
 	while (i != game->nb_philo)
 	{
-		pthread_join(thread[i], NULL);
+		waitpid(game->pid[i], NULL, 0);
 		i++;
 	}
 }
 
 void	free_philo(t_pars *game)
 {
-	int	i;
-
-	i = 0;
-	while (i != game->nb_philo)
-	{
-		pthread_mutex_destroy(&game->philo[i].r_fork);
-		i++;
-	}
-	pthread_mutex_destroy(&game->printf);
-	pthread_mutex_destroy(&game->alive_m);
-	pthread_mutex_destroy(&game->last_meal_m);
-	pthread_mutex_destroy(&game->dead_m);
-	pthread_mutex_destroy(&game->time_m);
+	sem_close(game->printf_sem);
+	sem_close(game->meal_sem);
+	sem_close(game->alive_sem);
+	sem_close(game->dead_sem);
+	sem_close(game->time_sem);
+	sem_close(game->fork);
 	free(game->philo);
 }
