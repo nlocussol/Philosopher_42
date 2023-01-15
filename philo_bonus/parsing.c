@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 11:21:50 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 12:37:02 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	pars_arg(int argc, char **argv)
 
 	if (argv[1][0] == '0' || argv[argc - 1][0] == '0')
 	{
-		print_error(RED, "The number of philos cannot \
+		print_error(RED, "The arguments cannot \
 be equal to or less than 0!\n");
 		return (1);
 	}

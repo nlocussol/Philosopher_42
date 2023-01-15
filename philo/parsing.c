@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 11:38:37 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 12:38:56 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,16 @@ void	init_prog(t_pars *game, int argc, char **argv)
 	thread = malloc(game->nb_philo * sizeof(pthread_t));
 	while (i != game->nb_philo)
 	{
+		init_philo(i, &game->philo[i], game);
+		i++;
+	}
+	i = 0;
+	while (i != game->nb_philo)
+	{
 		if (i == 0)
 			game->philo[i].l_fork = &game->philo[game->nb_philo - 1].r_fork;
 		else
 			game->philo[i].l_fork = &game->philo[i - 1].r_fork;
-		init_philo(i, &game->philo[i], game);
 		pthread_create(&thread[i], NULL, routine, &game->philo[i]);
 		i++;
 	}
@@ -102,7 +107,7 @@ int	pars_arg(int argc, char **argv)
 
 	if (argv[1][0] == '0' || argv[argc - 1][0] == '0')
 	{
-		print_error(RED, "The number of philos cannot \
+		print_error(RED, "The arguments cannot \
 be equal to or less than 0!\n");
 		return (1);
 	}
