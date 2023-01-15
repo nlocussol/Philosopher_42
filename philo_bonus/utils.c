@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 16:49:34 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 19:13:24 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 11:33:14 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ void	print_philo(t_philo *philo, char *color, char *message)
 {
 	int	time_now;
 
-	sem_wait(philo->game->dead_sem);
 	sem_wait(philo->game->printf_sem);
-	if (philo->game->dead == false)
+	if (philo->alive == true)
 	{
 		time_now = get_time() - philo->game->time;
 		printf("%s", color);
@@ -47,7 +46,6 @@ void	print_philo(t_philo *philo, char *color, char *message)
 		printf("\033[0m");
 	}
 	sem_post(philo->game->printf_sem);
-	sem_post(philo->game->dead_sem);
 }
 
 void	print_error(char *color, char *message)
@@ -55,17 +53,6 @@ void	print_error(char *color, char *message)
 	printf("%s", color);
 	printf("%s", message);
 	printf("\033[0m");
-}
-
-int	get_time(void)
-{
-	struct timeval	tv_s;
-	struct timezone	tv_u;
-	int				time;
-
-	gettimeofday(&tv_s, &tv_u);
-	time = tv_s.tv_usec / 1000 + ((tv_s.tv_sec % 1000) * 1000);
-	return (time);
 }
 
 int	overflow(int number)

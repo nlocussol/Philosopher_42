@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 19:31:42 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 11:21:50 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*dead(void *game_void)
 	i = 0;
 	while (i != game->nb_philo)
 	{
-		kill(game->pid[i], SIGINT);
+		kill(game->pid[i], SIGKILL);
 		i++;
 	}
 	return (NULL);

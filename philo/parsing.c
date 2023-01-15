@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 13:46:19 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 11:38:37 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@ void	is_dead(t_philo *philo)
 	}
 }
 
+void	manager(t_pars *game, int i, bool *dead, bool *eat)
+{
+	if (game->philo[i].alive == false)
+	{
+		pthread_mutex_lock(&game->dead_m);
+		game->dead = true;
+		*dead = true;
+		pthread_mutex_unlock(&game->dead_m);
+	}
+	else if (game->meal == game->nb_philo)
+	{
+		pthread_mutex_lock(&game->dead_m);
+		game->all_eat = true;
+		*eat = true;
+		pthread_mutex_unlock(&game->dead_m);
+	}
+}
+
 void	check_dead(t_pars *game)
 {
 	int		i;
@@ -40,7 +58,7 @@ void	check_dead(t_pars *game)
 	{
 		i = 0;
 		game->meal = 0;
-		while (i != game->nb_philo)
+		while (i != game->nb_philo && dead == false && eat == false)
 		{
 			usleep(10);
 			is_dead(&game->philo[i]);
@@ -48,21 +66,7 @@ void	check_dead(t_pars *game)
 			if (game->philo[i].eat_all == true)
 				game->meal++;
 			pthread_mutex_unlock(&game->meal_m);
-			if (game->philo[i].alive == false)
-			{
-				pthread_mutex_lock(&game->dead_m);
-				game->dead = true;
-				dead = true;
-				pthread_mutex_unlock(&game->dead_m);
-				break ;
-			}
-			else if (game->meal == game->nb_philo)
-			{
-				pthread_mutex_lock(&game->dead_m);
-				game->all_eat = true;	
-				eat = true;
-				pthread_mutex_unlock(&game->dead_m);
-			}
+			manager(game, i, &dead, &eat);
 			i++;
 		}
 	}

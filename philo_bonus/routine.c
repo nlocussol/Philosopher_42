@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:59:16 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 19:29:39 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 11:30:22 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,14 @@ void	is_dead(t_philo *philo)
 {
 	int	between_meal;
 
+	sem_wait(philo->game->meal_sem);
 	between_meal = get_time() - philo->last_meal;
+	sem_post(philo->game->meal_sem);
 	if (between_meal >= philo->game->time_to_die)
 	{
+		sem_wait(philo->game->dead_print);
 		print_philo(philo, RED, DIED);
+		sem_wait(philo->game->printf_sem);
 		philo->alive = false;
 		sem_post(philo->game->one_dead);
 	}
