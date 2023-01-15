@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 11:31:20 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:32:43 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/time.h>
-# define TRUE 1
-# define FALSE 0
 
 # define RED "\033[0;31m"
 # define YELLOW "\033[0;33m"

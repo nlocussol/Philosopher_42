@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 13:43:57 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:32:05 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/time.h>
-# define TRUE 1
-# define FALSE 0
 
 # define RED "\033[0;31m"
 # define YELLOW "\033[0;33m"
