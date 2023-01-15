@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:56:59 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 13:45:21 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 12:58:31 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,25 @@ void	sleep_routine(t_philo *philo)
 	ft_usleep(philo->game->time_to_sleep, philo);
 }
 
-void	*routine(void *philo_void)
+int	sleep_philo(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)philo_void;
 	if (philo->id % 2 != 0)
 		usleep(5000);
 	if (philo->game->nb_philo == 1)
 	{
 		print_philo(philo, BLUE, FORK_R);
-		return (NULL);
+		return (1);
 	}
+	return (0);
+}
+
+void	*routine(void *philo_void)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)philo_void;
+	if (sleep_philo(philo) == 1)
+		return (NULL);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->game->dead_m);
@@ -64,7 +71,6 @@ void	*routine(void *philo_void)
 		{
 			pthread_mutex_unlock(&philo->game->meal_m);
 			pthread_mutex_unlock(&philo->game->dead_m);
-			//eat_routine(philo);
 			break ;
 		}
 		pthread_mutex_unlock(&philo->game->meal_m);

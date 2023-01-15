@@ -6,11 +6,22 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 09:15:31 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 13:44:14 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 12:59:27 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	get_time(void)
+{
+	struct timeval	tv_s;
+	struct timezone	tv_u;
+	int				time;
+
+	gettimeofday(&tv_s, &tv_u);
+	time = tv_s.tv_usec / 1000 + ((tv_s.tv_sec % 1000) * 1000);
+	return (time);
+}
 
 void	init_philo(int i, t_philo *philo, struct s_pars *game)
 {

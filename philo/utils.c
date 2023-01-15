@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:52:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/14 13:50:50 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 12:59:29 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	print_philo(t_philo *philo, char *color, char *message)
 	pthread_mutex_lock(&philo->game->dead_m);
 	pthread_mutex_lock(&philo->game->meal_m);
 	pthread_mutex_lock(&philo->game->printf);
-	if (philo->game->dead == false && philo->alive == true && philo->game->all_eat == false)
+	if (philo->game->dead == false && philo->alive == true
+		&& philo->game->all_eat == false)
 	{
 		time_now = get_time() - philo->game->time;
 		printf("%s", color);
@@ -57,17 +58,6 @@ void	print_philo(t_philo *philo, char *color, char *message)
 	pthread_mutex_unlock(&philo->game->meal_m);
 	pthread_mutex_unlock(&philo->game->printf);
 	pthread_mutex_unlock(&philo->game->dead_m);
-}
-
-int	get_time(void)
-{
-	struct timeval	tv_s;
-	struct timezone	tv_u;
-	int				time;
-
-	gettimeofday(&tv_s, &tv_u);
-	time = tv_s.tv_usec / 1000 + ((tv_s.tv_sec % 1000) * 1000);
-	return (time);
 }
 
 int	overflow(int number)
