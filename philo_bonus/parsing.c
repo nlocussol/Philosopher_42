@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 12:37:02 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:13:40 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	*dead(void *game_void)
 		kill(game->pid[i], SIGKILL);
 		i++;
 	}
+	i = 0;
+	while (i != game->nb_philo)
+	{
+		sem_post(game->all_eat);
+		i++;
+	}
 	return (NULL);
 }
 
@@ -41,26 +47,27 @@ void	*all_meal(void *game_void)
 		i++;
 	}
 	i = 0;
-	sem_wait(game->printf_sem);
 	while (i != game->nb_philo)
 	{
 		kill(game->pid[i], SIGINT);
 		i++;
 	}
+	sem_post(game->one_dead);
 	return (NULL);
 }
 
 void	check_eat_dead(t_pars *game)
 {
-	pthread_t	thread[2];
+	pthread_t	thread_dead;
+	pthread_t	thread_eat;
 
+	pthread_create(&thread_dead, NULL, dead, game);
+	pthread_detach(thread_dead);
 	if (game->total_meal != -1)
 	{
-		pthread_create(&thread[0], NULL, all_meal, game);
-		pthread_detach(thread[0]);
+		pthread_create(&thread_eat, NULL, all_meal, game);
+		pthread_detach(thread_eat);
 	}
-	pthread_create(&thread[1], NULL, dead, game);
-	pthread_detach(thread[1]);
 }
 
 void	init_prog(t_pars *game, int argc, char **argv)
@@ -79,6 +86,7 @@ void	init_prog(t_pars *game, int argc, char **argv)
 	}
 	check_eat_dead(game);
 	wait_pid(game);
+	usleep(10000);
 	free_philo(game);
 }
 

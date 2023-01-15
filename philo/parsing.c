@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 12:38:56 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:40:54 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	check_dead(t_pars *game)
 	{
 		i = 0;
 		game->meal = 0;
-		while (i != game->nb_philo && dead == false && eat == false)
+		while (i != game->nb_philo)
 		{
 			usleep(10);
 			is_dead(&game->philo[i]);
