@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:59:16 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 11:30:22 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/16 10:04:42 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 void	eat_routine(t_philo *philo)
 {
+	sem_wait(philo->game->priority);
 	sem_wait(philo->game->fork);
 	print_philo(philo, BLUE, FORK_R);
 	sem_wait(philo->game->fork);
+	sem_post(philo->game->priority);
 	print_philo(philo, BLUE, FORK_L);
 	print_philo(philo, GREEN, EATING);
-	ft_usleep(philo->game->time_to_eat, philo);
 	sem_wait(philo->game->meal_sem);
 	philo->last_meal = get_time();
+	sem_post(philo->game->meal_sem);
+	ft_usleep(philo->game->time_to_eat, philo);
+	sem_post(philo->game->fork);
+	sem_post(philo->game->fork);
+	sem_wait(philo->game->meal_sem);
 	philo->nb_meal++;
 	if (philo->nb_meal == philo->game->total_meal)
 		sem_post(philo->game->all_eat);
 	sem_post(philo->game->meal_sem);
-	sem_post(philo->game->fork);
-	sem_post(philo->game->fork);
 }
 
 void	sleep_routine(t_philo *philo)
@@ -43,7 +47,7 @@ void	is_dead(t_philo *philo)
 	sem_wait(philo->game->meal_sem);
 	between_meal = get_time() - philo->last_meal;
 	sem_post(philo->game->meal_sem);
-	if (between_meal >= philo->game->time_to_die)
+	if (between_meal > philo->game->time_to_die)
 	{
 		sem_wait(philo->game->dead_print);
 		print_philo(philo, RED, DIED);
@@ -60,7 +64,7 @@ void	*manager(void *philo_void)
 	philo = (t_philo *)philo_void;
 	while (philo->alive != false)
 	{
-		usleep(10);
+		usleep(100);
 		is_dead(philo);
 	}
 	return (NULL);
@@ -73,7 +77,7 @@ void	routine(t_philo *philo)
 	pthread_create(&thread, NULL, manager, philo);
 	pthread_detach(thread);
 	if (philo->id % 2 != 0)
-		usleep(5000);
+		usleep(500);
 	while (1)
 	{
 		eat_routine(philo);

@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:28:35 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 12:55:00 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/16 09:57:56 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_philo(t_pars *game)
 	sem_close(game->all_eat);
 	sem_close(game->one_dead);
 	sem_close(game->dead_print);
+	sem_close(game->priority);
 	free(game->philo);
 	free(game->pid);
 }

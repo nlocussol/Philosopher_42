@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 15:13:40 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/16 09:59:50 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*all_meal(void *game_void)
 	i = 0;
 	while (i != game->nb_philo)
 	{
-		kill(game->pid[i], SIGINT);
+		kill(game->pid[i], SIGKILL);
 		i++;
 	}
 	sem_post(game->one_dead);
@@ -61,13 +61,13 @@ void	check_eat_dead(t_pars *game)
 	pthread_t	thread_dead;
 	pthread_t	thread_eat;
 
-	pthread_create(&thread_dead, NULL, dead, game);
-	pthread_detach(thread_dead);
 	if (game->total_meal != -1)
 	{
 		pthread_create(&thread_eat, NULL, all_meal, game);
 		pthread_detach(thread_eat);
 	}
+	pthread_create(&thread_dead, NULL, dead, game);
+	pthread_detach(thread_dead);
 }
 
 void	init_prog(t_pars *game, int argc, char **argv)

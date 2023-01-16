@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:38:56 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 11:34:44 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/16 09:51:10 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	unlink_all(void)
 	sem_unlink("all_eat_sem");
 	sem_unlink("one_dead_sem");
 	sem_unlink("dead_print_sem");
+	sem_unlink("priority_sem");
 }
 
 void	init_game(t_pars *game, int argc, char **argv)
@@ -67,5 +68,6 @@ void	init_game(t_pars *game, int argc, char **argv)
 	game->fork = sem_open("fork_sem", O_CREAT, 0660, game->nb_philo);
 	game->one_dead = sem_open("one_dead_sem", O_CREAT, 0660, 0);
 	game->dead_print = sem_open("dead_print_sem", O_CREAT, 0660, 1);
+	game->priority = sem_open("priority_sem", O_CREAT, 0660, 1);
 	game->philo = malloc(game->nb_philo * sizeof(t_philo));
 }

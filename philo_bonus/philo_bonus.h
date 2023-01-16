@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:24:04 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/15 15:32:43 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/16 09:48:40 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_pars
 	sem_t	*all_eat;
 	sem_t	*one_dead;
 	sem_t	*dead_print;
+	sem_t	*priority;
 	int		nb_philo;
 	int		total_meal;
 	int		time_to_die;
