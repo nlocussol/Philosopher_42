@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:38:56 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/16 09:51:10 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:06:20 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	init_game(t_pars *game, int argc, char **argv)
 		game->total_meal = ft_atoll(argv[5]);
 	game->dead = false;
 	game->pid = malloc(sizeof(int) * game->nb_philo);
+	if (game->pid == NULL)
+		exit(EXIT_FAILURE);
 	unlink_all();
 	game->printf_sem = sem_open("printf_sem", O_CREAT, 0660, 1);
 	game->meal_sem = sem_open("meal_sem", O_CREAT, 0660, 1);

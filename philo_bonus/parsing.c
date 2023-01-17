@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:41:46 by nlocusso          #+#    #+#             */
-/*   Updated: 2023/01/16 09:59:50 by nlocusso         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:06:36 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	init_prog(t_pars *game, int argc, char **argv)
 	{
 		init_philo(i, &game->philo[i], game);
 		game->pid[i] = fork();
+		if (game->pid[i] < 0)
+			break ;
 		if (game->pid[i] == 0)
 			routine(&game->philo[i]);
 		i++;
